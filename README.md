@@ -244,6 +244,23 @@ An interface will appear showing results as they load, letting you track the age
   <img src="assets/cli/cli_transaction.png" width="100%" style="display: inline-block; margin: 0 2%;">
 </p>
 
+### Running in a Claude Code session
+
+The `session` provider runs the pipeline with a Claude Code session as the model, so a run needs no LLM API key. Every model call waits in a queue (`~/.tradingagents/session`, or `TRADINGAGENTS_SESSION_DIR`) until the session answers it:
+
+```bash
+tradingagents session run NVDA --date 2026-10-22 --analysts market,news   # in the background
+tradingagents session next                                                 # show the waiting request
+tradingagents session answer r1 --calls <<'EOF'                            # tool calls or a structured answer
+[{"name": "get_stock_data", "args": {"start_date": "2026-09-01", "end_date": "2026-10-22"}}]
+EOF
+tradingagents session answer r2 <<'EOF'                                    # a text answer
+...
+EOF
+```
+
+Each answer prints the next request, until the run reports its decision and saves the usual report and memory log entry. The `trading-agents` skill in `.claude/skills` walks Claude Code through this, so in a Claude Code session in this repository, asking it to analyze a ticker is enough. From Python, `config["llm_provider"] = "session"` does the same for `propagate()`.
+
 ## TradingAgents Package
 
 ### Implementation Details

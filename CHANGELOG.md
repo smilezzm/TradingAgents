@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Changes that need action when upgrading are listed under "Upgrading from" in their release.
 
+## [Unreleased]
+
+### Added
+
+- **Runs answered by a Claude Code session.** The `session` provider makes the Claude Code session driving a run its model, so a run needs no LLM API key. `tradingagents session run TICKER` starts the pipeline, each model call waits in a queue, and `tradingagents session next` / `answer` show each request and take the session's reply, tool calls and structured answers included. The `trading-agents` skill in `.claude/skills` walks Claude Code through a run.
+
 ## [0.7.0] — 2026-10-16
 
 Runs on your ChatGPT plan, backtests scored from the first close after each decision, a note at start-up when a newer release is out, and a wheel attached to each GitHub release.
